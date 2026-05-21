@@ -11,6 +11,7 @@ class Settings(BaseSettings):
         env_file=".env",
         env_file_encoding="utf-8",
         protected_namespaces=("settings_",),
+        extra="ignore",
     )
 
     app_name: str = Field(default="RSUA Incident Service")
