@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import os
 from typing import Any, Dict
 
 from fastapi import FastAPI, Request
@@ -29,13 +30,12 @@ app = FastAPI(
 )
 
 # Allow frontend access
+_raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173")
+_allowed_origins = [o.strip() for o in _raw_origins.split(",")]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://192.168.113.170:5173",
-        "http://192.168.113.11:5173",
-        "http://localhost:5173"
-    ],
+    allow_origins=_allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
