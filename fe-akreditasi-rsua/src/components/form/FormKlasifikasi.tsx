@@ -13,6 +13,7 @@ import {
   type IncidentCreate,
   type IncidentRead,
 } from "../../services/incidents";
+import { getSkpRecommendation } from "../../utils/skpRecommendations";
 
 const toIsoDate = (date: string, time?: string) => {
   if (!date) return undefined;
@@ -190,11 +191,17 @@ export default function Klasifikasi() {
       jenis: result.final_category ?? result.predicted_category ?? "-",
       skp: result.skp_code ?? "-",
       mdp: result.mdp_code ?? "-",
+      grading: result.grading,
       confidence: result.predicted_confidence
         ? `${Math.round(result.predicted_confidence * 100)}%`
         : null,
     };
   }, [result]);
+
+  const recommendation = useMemo(
+    () => getSkpRecommendation(result?.skp_code, result?.grading),
+    [result]
+  );
 
   return (
     <ComponentCard title="Klasifikasi Jenis Kejadian">
@@ -385,6 +392,19 @@ export default function Klasifikasi() {
               <p className="mt-4 text-center text-sm text-gray-600">
                 Akurasi model {classification.confidence}
               </p>
+            )}
+
+            {recommendation && (
+              <div className="mt-6 rounded-xl bg-white/70 p-5">
+                <h4 className="font-semibold text-indigo-700 mb-2">
+                  Rekomendasi – {recommendation.label}
+                </h4>
+                <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700">
+                  {recommendation.items.map((item, idx) => (
+                    <li key={idx}>{item}</li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         )}

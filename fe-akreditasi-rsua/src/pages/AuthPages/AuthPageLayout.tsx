@@ -26,10 +26,9 @@ export default function AuthLayout({
                 />
               </Link>
               <h1 className="font-semibold text-center text-gray-400 dark:text-white">
-                Rumah Sakit
-              </h1>
-              <h1 className="font-semibold text-center text-gray-400 dark:text-white">
-                Universitas Airlangga
+                AI-Driven Analysis to Identify Patterns, Automated
+                Classification, and Predict Risk Grading of Patient Safety
+                Incidents in Nursing Practice
               </h1>
             </div>
           </div>
